@@ -44,7 +44,7 @@ and upload them to a connected iCEBreaker Board.
 | [icebreaker\_tb.v](icebreaker_tb.v) | Testbench for implementation on iCEBreaker Board                |
 
 
-### =========================================================================
+### ========================================================================
 
 ### More about:
 ### [start.s](start.s):
@@ -71,7 +71,7 @@ What it typically does:
 Specifies where code, data, and other sections should be placed (e.g., start of flash, SRAM).
 Ensures that startup code (start.s), main firmware (firmware.c), and data end up at the right addresses for the hardware.
 
-### ===========================================================================
+### ========================================================================
 
 
 ### Memory map:
