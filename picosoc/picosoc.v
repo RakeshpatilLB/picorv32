@@ -37,12 +37,14 @@ module picosoc (
 	input clk,
 	input resetn,
 
-	output        iomem_valid,
+	// for custom hw components
+	output        iomem_valid, 
 	input         iomem_ready,
 	output [ 3:0] iomem_wstrb,
 	output [31:0] iomem_addr,
 	output [31:0] iomem_wdata,
 	input  [31:0] iomem_rdata,
+	//
 
 	input  irq_5,
 	input  irq_6,
@@ -123,10 +125,10 @@ module picosoc (
 	wire        simpleuart_reg_dat_sel = mem_valid && (mem_addr == 32'h 0200_0008);
 	wire [31:0] simpleuart_reg_dat_do;
 	wire        simpleuart_reg_dat_wait;
-
+         
 	assign mem_ready = (iomem_valid && iomem_ready) || spimem_ready || ram_ready || spimemio_cfgreg_sel ||
 			simpleuart_reg_div_sel || (simpleuart_reg_dat_sel && !simpleuart_reg_dat_wait);
-
+	//mem_rdata= from external I/o or from spi flash or from ram or from spi memio config regs or from uart(from external source via uart) or 0.
 	assign mem_rdata = (iomem_valid && iomem_ready) ? iomem_rdata : spimem_ready ? spimem_rdata : ram_ready ? ram_rdata :
 			spimemio_cfgreg_sel ? spimemio_cfgreg_do : simpleuart_reg_div_sel ? simpleuart_reg_div_do :
 			simpleuart_reg_dat_sel ? simpleuart_reg_dat_do : 32'h 0000_0000;
@@ -159,7 +161,7 @@ module picosoc (
 	spimemio spimemio (
 		.clk    (clk),
 		.resetn (resetn),
-		.valid  (mem_valid && mem_addr >= 4*MEM_WORDS && mem_addr < 32'h 0200_0000),
+		.valid  (mem_valid && mem_addr >= 4*MEM_WORDS && mem_addr < 32'h 0200_0000), //if address goes out of the 1kB sram
 		.ready  (spimem_ready),
 		.addr   (mem_addr[23:0]),
 		.rdata  (spimem_rdata),
