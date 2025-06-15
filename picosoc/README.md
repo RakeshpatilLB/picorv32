@@ -43,7 +43,40 @@ and upload them to a connected iCEBreaker Board.
 | [icebreaker.pcf](icebreaker.pcf)    | Pin constraints for implementation on iCEBreaker Board          |
 | [icebreaker\_tb.v](icebreaker_tb.v) | Testbench for implementation on iCEBreaker Board                |
 
+
+### =========================================================================
+
+### More about:
+### [start.s](start.s):
+Purpose:
+Contains the startup code that runs immediately after the CPU resets.
+
+What it typically does:
+Sets up the initial stack pointer.
+Clears the BSS section (uninitialized variables).
+Sets up the initial program counter and possibly interrupt vectors.
+Jumps to the main C function in firmware.c.
+
+### [firmware.c](firmware.c):
+The main C source file for the firmware that runs on the PicoSoC CPU.
+Purpose:
+Implements the actual application logic, drivers, and possibly a command-line interface or test routines.
+All the logic that you want the SoC to perform lives here.
+
+### [sections.lds](sections.lds):
+Purpose:
+Defines how the final firmware binary is laid out in memory.
+
+What it typically does:
+Specifies where code, data, and other sections should be placed (e.g., start of flash, SRAM).
+Ensures that startup code (start.s), main firmware (firmware.c), and data end up at the right addresses for the hardware.
+
+### ===========================================================================
+
+
 ### Memory map:
+
+This section describes how different parts of the SoC (System on Chip) are "mapped" or assigned to specific address ranges. This means that when software running on the CPU accesses a certain memory address, it is actually interacting with a specific hardware component.
 
 | Address Range            | Description                             |
 | ------------------------ | --------------------------------------- |
@@ -53,6 +86,9 @@ and upload them to a connected iCEBreaker Board.
 | 0x02000004 .. 0x02000007 | UART Clock Divider Register             |
 | 0x02000008 .. 0x0200000B | UART Send/Recv Data Register            |
 | 0x03000000 .. 0xFFFFFFFF | Memory mapped user peripherals          |
+
+*Purpose: The memory map lets software know where to read/write to interact with RAM, flash storage, UART (serial), or custom hardware.
+*For example: Writing to address 0x03000000 turns on/off the LEDs on the FPGA board.
 
 Reading from the addresses in the internal SRAM region beyond the end of the
 physical SRAM will read from the corresponding addresses in serial flash.
@@ -67,6 +103,9 @@ The example design (hx8kdemo.v) has the 8 LEDs on the iCE40-HX8K Breakout Board
 mapped to the low byte of the 32 bit word at address 0x03000000.
 
 ### SPI Flash Controller Config Register:
+This register at address 0x02000000 controls how the external SPI Flash is accessed.
+Purpose: This register lets firmware switch between different SPI Flash access modes (standard, dual, quad, DDR, CRM) and control timing.
+In software: Changing the bits here changes how the CPU talks to the SPI Flash chip. For example, enabling QSPI mode uses 4 data lines for faster reads.
 
 | Bit(s) | Description                                               |
 | -----: | --------------------------------------------------------- |
