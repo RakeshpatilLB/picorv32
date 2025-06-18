@@ -56,7 +56,7 @@ module hx8kdemo (
 
 	//SB_IO is a vendor-specific FPGA primitive for controlling I/O pins, especially for bidirectional use. 
 	//It allows you to configure a pin as input, output, bidirectional, set pullups, and more.  
-	//It’s not Verilog code you’ll find in the repo, but a block recognized by the FPGA tools targeting the given board(ice breaker in this case).
+	//It’s not Verilog code you’ll find in the repo, but a block recognized by the FPGA tools targeting the given board(hx8k in this case).
 
 	SB_IO #(
 		.PIN_TYPE(6'b 1010_01),
