@@ -70,6 +70,10 @@ module icebreaker (
 	wire flash_io2_oe, flash_io2_do, flash_io2_di;
 	wire flash_io3_oe, flash_io3_do, flash_io3_di;
 
+	//SB_IO is a vendor-specific FPGA primitive for controlling I/O pins, especially for bidirectional use. 
+	//It allows you to configure a pin as input, output, bidirectional, set pullups, and more.  
+	//It’s not Verilog code you’ll find in the repo, but a block recognized by the FPGA tools targeting the given board(ice breaker in this case).
+
 	SB_IO #(
 		.PIN_TYPE(6'b 1010_01),
 		.PULLUP(1'b 0)
