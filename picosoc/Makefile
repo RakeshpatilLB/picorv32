@@ -1,5 +1,5 @@
 
-CROSS=riscv32-unknown-elf-
+CROSS=/opt/rv32im/bin/riscv32-unknown-elf-  #for riscv32im tools
 CFLAGS=
 
 # ---- iCE40 HX8K Breakout Board ----
