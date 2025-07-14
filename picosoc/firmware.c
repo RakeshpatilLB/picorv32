@@ -110,7 +110,7 @@ void set_flash_mode_qddr()
 }
 #endif
 
-#ifdef ICEBREAKER
+/*#ifdef ICEBREAKER
 void set_flash_qspi_flag()
 {
 	uint8_t buffer[8];
@@ -125,7 +125,27 @@ void set_flash_qspi_flag()
 	buffer[0] = 0x31;
 	buffer[1] = sr2 | 2; // Enable QSPI
 	flashio(buffer, 2, 0x50);
+}*/
+
+// For Artix-7 fpga (Arty_a7 100t board), Key word ICEBREAKER is not yet removed to avoid software related issues. Should be modified accordingly soon. 
+#ifdef ICEBREAKER
+void set_flash_qspi_flag()
+{
+	uint8_t buffer[8];
+
+	// Read Configuration Registers (RDCR1 35h)
+	buffer[0] = 0x35;
+	buffer[1] = 0x00; // rdata
+	flashio(buffer, 2, 0);
+	uint8_t sr2 = buffer[1];
+
+	// Write Enable (06h) + Write Status Register (01h)
+	buffer[0] = 0x01;
+	buffer[1] = sr2 | 2; // Enable QSPI
+	flashio(buffer, 2, 0x06);
 }
+
+
 
 void set_flash_mode_spi()
 {
