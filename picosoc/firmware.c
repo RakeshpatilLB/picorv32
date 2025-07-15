@@ -127,8 +127,7 @@ void set_flash_qspi_flag()
 	flashio(buffer, 2, 0x50);
 }*/
 
-// For Artix-7 fpga (Arty_a7 100t board), Key word ICEBREAKER is not yet removed to avoid software related issues. Should be modified accordingly soon. 
-#ifdef ICEBREAKER
+#ifdef ARTY
 void set_flash_qspi_flag()
 {
 	uint8_t buffer[8];
