@@ -110,7 +110,7 @@ void set_flash_mode_qddr()
 }
 #endif
 
-/*#ifdef ICEBREAKER
+#ifdef ICEBREAKER
 void set_flash_qspi_flag()
 {
 	uint8_t buffer[8];
@@ -125,9 +125,9 @@ void set_flash_qspi_flag()
 	buffer[0] = 0x31;
 	buffer[1] = sr2 | 2; // Enable QSPI
 	flashio(buffer, 2, 0x50);
-}*/
+}
 
-#ifdef ARTY
+/*#ifdef ARTIX7
 void set_flash_qspi_flag()
 {
 	uint8_t buffer[8];
@@ -142,7 +142,7 @@ void set_flash_qspi_flag()
 	buffer[0] = 0x01;
 	buffer[1] = sr2 | 2; // Enable QSPI
 	flashio(buffer, 2, 0x06);
-}
+}*/
 
 
 
